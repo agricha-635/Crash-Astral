@@ -165,7 +165,7 @@ public class GameView : MonoBehaviour
         StartingTimer.gameObject.SetActive(false);
 
         // Wait for 5 seconds before restarting
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.5f);
         MultiplierPanel.gameObject.SetActive(true);
         StartCoroutine(RiseMultiplier());
     }
@@ -173,15 +173,16 @@ public class GameView : MonoBehaviour
     private IEnumerator RiseMultiplier()
     {
         float multiplier = 1.00f;
+        float randomStop = Random.Range(1.00f, 10.00f); // Random stop point between 1.00x and 10.00x
 
-        while (multiplier <= 3.00f)
+        while (multiplier <= randomStop)
         {
             MultiplierText.text = $"{multiplier:F2}x";
             multiplier += 0.01f;
             yield return new WaitForSeconds(0.1f); // Adjust the speed as needed
         }
 
-        yield return new WaitForSeconds(3f); // Wait for 3 seconds after reaching 3.00x
+        yield return new WaitForSeconds(2f); // Wait for 3 seconds after reaching the random stop
         RestartGame();
     }
 
