@@ -9,9 +9,9 @@ public class GameView : MonoBehaviour
 
     [SerializeField]
     private Button playButton, acceptedButton, waitButton, cashOutButton;
-    [SerializeField] private TMP_Text tenSecondTimerText, fourSecondTimerText;
+    [SerializeField] private TMP_Text tenSecondTimerText, fourSecondTimerText, MultiplierText;
     [SerializeField] private TMP_InputField bettingAmount;
-    [SerializeField] private GameObject WonCashPanel, StartingTimer;
+    [SerializeField] private GameObject WonCashPanel, StartingTimer, MultiplierPanel;
     [SerializeField] private Image CountDown, fillImage;
     [SerializeField] private Button increaseButton, decreaseButton;
     [SerializeField] private Button[] amountButtons; // Array for amount buttons
@@ -134,6 +134,8 @@ public class GameView : MonoBehaviour
             DisableRangeButtons();
         }
         CountDown.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(2f);
         StartingTimer.gameObject.SetActive(true);
         StartCoroutine(FourSecondTimer());
     }
@@ -163,10 +165,26 @@ public class GameView : MonoBehaviour
         StartingTimer.gameObject.SetActive(false);
 
         // Wait for 5 seconds before restarting
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2f);
+        MultiplierPanel.gameObject.SetActive(true);
+        StartCoroutine(RiseMultiplier());
+    }
 
+    private IEnumerator RiseMultiplier()
+    {
+        float multiplier = 1.00f;
+
+        while (multiplier <= 3.00f)
+        {
+            MultiplierText.text = $"{multiplier:F2}x";
+            multiplier += 0.01f;
+            yield return new WaitForSeconds(0.1f); // Adjust the speed as needed
+        }
+
+        yield return new WaitForSeconds(3f); // Wait for 3 seconds after reaching 3.00x
         RestartGame();
     }
+
 
     private void RestartGame()
     {
@@ -192,6 +210,7 @@ public class GameView : MonoBehaviour
         cashOutButton.gameObject.SetActive(false);
         CountDown.gameObject.SetActive(true);
         StartingTimer.gameObject.SetActive(false);
+        MultiplierPanel.gameObject.SetActive(false);
         WonCashPanel.gameObject.SetActive(false);
         playButton.interactable = true;
         bettingAmount.interactable = true;
