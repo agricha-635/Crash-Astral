@@ -8,7 +8,7 @@ public class GameView : MonoBehaviour
     public static GameView Instance { get; private set; }
 
     [SerializeField]
-    private Button playButton, acceptedButton, waitButton, cashOutButton;
+    private Button playButton, acceptedButton, waitButton, cashOutButton, exitButton; // Add exitButton
     [SerializeField] private TMP_Text tenSecondTimerText, fourSecondTimerText, MultiplierText;
     [SerializeField] private TMP_InputField bettingAmount;
     [SerializeField] private GameObject WonCashPanel, StartingTimer, MultiplierPanel;
@@ -16,11 +16,19 @@ public class GameView : MonoBehaviour
     [SerializeField] private Button increaseButton, decreaseButton;
     [SerializeField] private Button[] amountButtons; // Array for amount buttons
     [SerializeField] private TMP_Text walletText;
-
+    [SerializeField] private TMP_Text CashOutAtMultiplier;
+    [SerializeField] private TMP_Text WinningAmount;
+    [SerializeField] private Transform historyPanel; // Parent panel for history entries
+    [SerializeField] private GameObject historyEntryPrefab; // Prefab for history entries
+    [SerializeField] private MovableBG movableBG; // Reference to the MovableBG component
+    [SerializeField] private RocketController rocketController; // Reference to the RocketController
+    [SerializeField] private GameObject boomImage;
     private bool playButtonClicked = false;
     private int tenSecondTimer = 10;
     private int fourSecondTimer = 4;
     private int walletAmount = 1000000; // Example initial wallet amount in rupees
+    private float currentMultiplier = 1.00f; // Store the current multiplier value
+    int betAmount = 0;
 
     private void Awake()
     {
@@ -42,6 +50,7 @@ public class GameView : MonoBehaviour
         cashOutButton.onClick.AddListener(OnCashOutButtonClick);
         increaseButton.onClick.AddListener(OnIncreaseButtonClick);
         decreaseButton.onClick.AddListener(OnDecreaseButtonClick);
+        exitButton.onClick.AddListener(OnExitButtonClick); // Add listener for exitButton
 
         // Add listeners for the amount buttons
         foreach (Button button in amountButtons)
@@ -60,10 +69,11 @@ public class GameView : MonoBehaviour
 
     private void OnPlayButtonClick()
     {
-        if (int.TryParse(bettingAmount.text, out int betAmount))
+        if (int.TryParse(bettingAmount.text, out betAmount))
         {
             if (betAmount <= walletAmount)
             {
+                Debug.Log("Betting: " + betAmount);
                 walletAmount -= betAmount;
                 UpdateWalletText(); // Update wallet text after deduction
 
@@ -106,6 +116,12 @@ public class GameView : MonoBehaviour
         }
     }
 
+    private string FormatWinningAmount(float amount)
+    {
+        int intAmount = (int)amount;
+        return FormatAmount(intAmount);
+    }
+
     private IEnumerator TenSecondTimer()
     {
         while (tenSecondTimer >= 0)
@@ -135,7 +151,7 @@ public class GameView : MonoBehaviour
         }
         CountDown.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         StartingTimer.gameObject.SetActive(true);
         StartCoroutine(FourSecondTimer());
     }
@@ -150,6 +166,10 @@ public class GameView : MonoBehaviour
         }
 
         fourSecondTimerText.text = "0";
+        StartingTimer.gameObject.SetActive(false);
+
+        // Wait for 5 seconds before restarting
+        yield return new WaitForSeconds(1.0f);
 
         if (playButtonClicked)
         {
@@ -162,10 +182,6 @@ public class GameView : MonoBehaviour
             waitButton.gameObject.SetActive(true);
         }
 
-        StartingTimer.gameObject.SetActive(false);
-
-        // Wait for 5 seconds before restarting
-        yield return new WaitForSeconds(1.5f);
         MultiplierPanel.gameObject.SetActive(true);
         StartCoroutine(RiseMultiplier());
     }
@@ -175,17 +191,51 @@ public class GameView : MonoBehaviour
         float multiplier = 1.00f;
         float randomStop = Random.Range(1.00f, 10.00f); // Random stop point between 1.00x and 10.00x
 
+        movableBG.StartMoving(); // Start the background movement
+        rocketController.StartMoving(); // Start the rocket movement
+
         while (multiplier <= randomStop)
         {
+            currentMultiplier = multiplier; // Update current multiplier
             MultiplierText.text = $"{multiplier:F2}x";
             multiplier += 0.01f;
             yield return new WaitForSeconds(0.1f); // Adjust the speed as needed
         }
 
+        movableBG.StopMoving(); // Stop the background movement
+        rocketController.StopMoving(); // Stop the rocket movement
+        rocketController.rocketTransform.gameObject.SetActive(false);
+        boomImage.SetActive(true); // Activate the boom image where the rocket crashes
+
+        if (playButtonClicked)
+        {
+            cashOutButton.gameObject.SetActive(false);
+            waitButton.gameObject.SetActive(true);
+        }
+
+        Debug.Log("Rocket Crash at: " + $"{randomStop:F2}x");
+
+        // Add crash multiplier to history
+        AddToHistory($"{randomStop:F2}x");
+
         yield return new WaitForSeconds(2f); // Wait for 3 seconds after reaching the random stop
+        boomImage.SetActive(false); // Hide boom image after a delay
         RestartGame();
     }
 
+
+    private void AddToHistory(string multiplier)
+    {
+        GameObject newEntry = Instantiate(historyEntryPrefab, historyPanel);
+        TMP_Text textComponent = newEntry.GetComponentInChildren<TMP_Text>();
+        textComponent.text = multiplier;
+        newEntry.name = multiplier;
+        // Remove oldest entry if more than 5
+        if (historyPanel.childCount > 5)
+        {
+            Destroy(historyPanel.GetChild(0).gameObject);
+        }
+    }
 
     private void RestartGame()
     {
@@ -199,6 +249,9 @@ public class GameView : MonoBehaviour
 
         // Reset UI elements to their initial state
         ResetUI();
+
+        // Reset rocket position and rotation
+        rocketController.ResetRocket();
 
         StartCoroutine(TenSecondTimer()); // Restart the timer
     }
@@ -228,11 +281,38 @@ public class GameView : MonoBehaviour
 
     public void OnCashOutButtonClick()
     {
-        // Additional logic for cash out can be added here
+        // Set the cash-out multiplier text
+        CashOutAtMultiplier.text = $"{currentMultiplier:F2}x";
+        Debug.Log("Cash Out at Multiplier: " + $"{currentMultiplier:F2}x");
+
+        // Calculate the winning amount
+        float winningAmount = currentMultiplier * betAmount;
+
+        // Update the wallet amount with winnings
+        walletAmount = walletAmount + (int)winningAmount;
+
+        // Check if the winning amount is less than 1000, then display actual value
+        string displayWinningAmount;
+        if (winningAmount < 1000)
+        {
+            displayWinningAmount = winningAmount.ToString("F2"); // Display actual amount with two decimal points
+        }
+        else
+        {
+            displayWinningAmount = FormatWinningAmount(winningAmount); // Display formatted amount
+        }
+
+        WinningAmount.text = displayWinningAmount; // Set the winning amount text
+        walletText.text = FormatAmount(walletAmount); // Update wallet text
+        Debug.Log("Winning amount: " + displayWinningAmount);
+        Debug.Log("Wallet amount: " + walletAmount);
+
+        // Activate/inactivate other buttons
         cashOutButton.gameObject.SetActive(false);
         WonCashPanel.gameObject.SetActive(true);
         waitButton.gameObject.SetActive(true);
     }
+
 
     private void OnIncreaseButtonClick()
     {
@@ -273,5 +353,13 @@ public class GameView : MonoBehaviour
 
         increaseButton.interactable = false;
         decreaseButton.interactable = false;
+    }
+
+    // Add this method to handle exit button click
+    private void OnExitButtonClick()
+    {
+        // Switch back to the lobby view
+        Lobby.Instance.lobbyPanel.SetActive(true);
+        Lobby.Instance.gameViewPanel.SetActive(false);
     }
 }

@@ -4,8 +4,8 @@ public class Lobby : MonoBehaviour
 {
     public static Lobby Instance { get; private set; }
 
-    [SerializeField] private GameObject lobbyPanel;
-    [SerializeField] private GameObject gameViewPanel;
+    [SerializeField] public GameObject lobbyPanel; // Changed to public
+    [SerializeField] public GameObject gameViewPanel; // Changed to public
 
     private void Awake()
     {
@@ -31,5 +31,14 @@ public class Lobby : MonoBehaviour
     {
         lobbyPanel.SetActive(false);
         gameViewPanel.SetActive(true);
+    }
+
+    private void Update()
+    {
+        // Check for the Android back button press
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 }
