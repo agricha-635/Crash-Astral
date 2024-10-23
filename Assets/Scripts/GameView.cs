@@ -232,7 +232,7 @@ public class GameView : MonoBehaviour
         textComponent.text = multiplier;
         newEntry.name = multiplier;
         // Remove oldest entry if more than 5
-        if (historyPanel.childCount > 5)
+        if (historyPanel.childCount > 6)
         {
             Destroy(historyPanel.GetChild(0).gameObject);
         }
