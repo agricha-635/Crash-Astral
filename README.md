@@ -1,25 +1,31 @@
 # Crash-Astral 🚀
 
-**Crash Astral** is an exciting, fast-paced rocket crash game where players navigate through challenging obstacles and gravity-defying environments. Test your skills as you pilot your spacecraft, aiming to avoid crashes and complete levels with precision!
+**Crash Astral** is a thrilling rocket crash game that focuses on high-risk, high-reward gameplay. The game mechanics are similar to **Aviator**, where you need to exit your rocket before it crashes to secure your winnings.
 
 ## 🎮 Game Overview
 
-In **Crash Astral**, you control a rocket ship flying through different astral landscapes. The objective is to survive by avoiding crashes with obstacles and managing your ship's fuel and speed. The game demands quick reflexes and strategic maneuvering to make it through levels safely.
+In **Crash Astral**, you watch your rocket ascend, and as it gains altitude, both the risk and reward increase. Like **Aviator**, you need to make a timely decision to exit the rocket before it crashes, or you'll lose everything.
+
+### Core Mechanics:
+
+- **High-risk, high-reward**: The more risk you take, the higher your potential rewards.
+- **Real-time decisions**: You must exit the rocket at the right time, but the longer you wait, the greater the chance of crashing.
+- **Instant restarts**: If you crash, the level restarts, giving you a fresh chance to try a new strategy.
 
 ## 🧑‍🚀 Features
 
-- **Dynamic Obstacles**: Navigate through a variety of obstacles and environments.
-- **Physics-based Gameplay**: Realistic rocket movement with gravity and inertia.
-- **Challenging Levels**: Test your reflexes with increasing levels of difficulty.
-- **Interactive UI**: Easy-to-use interface that lets you focus on the gameplay.
+- **Aviator-style Gameplay**: Your rocket continuously gains altitude, and you need to decide when to safely exit.
+- **Dynamic Flight Simulation**: Rocket movement is based on realistic physics, with momentum and gravity playing a role.
+- **Progressive Risk**: The further you go, the higher the risk and the greater the potential reward.
+- **Challenging Levels**: Each level increases in difficulty, requiring improved reflexes and decision-making.
 
 ## 🚀 How to Play
 
-1. Control the rocket using arrow keys or joystick.
-2. Avoid obstacles and maintain your speed.
-3. Monitor fuel and time to reach the end of the level.
-4. Crashing will restart the level – keep your reflexes sharp!
+1. **Launch**: Your rocket will automatically start ascending.
+2. **Monitor Altitude**: The higher your rocket goes, the greater the risk and reward.
+3. **Exit Before Crash**: You must exit the rocket at the right moment to secure your winnings. If the rocket crashes, you lose.
+4. **Restart**: If you crash, the level restarts, and you get another chance to test your luck and strategy.
 
 ## 🎥 Demo
 
-Check out a [demo of the game](https://drive.google.com/drive/u/0/folders/1Psdk2AtcdGUVEwWsiFV8M_hDbC-wA8py) to see **Crash Astral** in action.
+Check out a [demo video](https://drive.google.com/drive/u/0/folders/1Psdk2AtcdGUVEwWsiFV8M_hDbC-wA8py) to see how **Crash Astral** works and experience the Aviator-style gameplay firsthand!
