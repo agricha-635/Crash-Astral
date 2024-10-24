@@ -203,7 +203,6 @@ public class GameView : MonoBehaviour
         }
 
         movableBG.StopMoving(); // Stop the background movement
-        rocketController.StopMoving(); // Stop the rocket movement
         rocketController.rocketTransform.gameObject.SetActive(false);
         boomImage.SetActive(true); // Activate the boom image where the rocket crashes
 
@@ -232,7 +231,7 @@ public class GameView : MonoBehaviour
         textComponent.text = multiplier;
         newEntry.name = multiplier;
         // Remove oldest entry if more than 5
-        if (historyPanel.childCount > 6)
+        if (historyPanel.childCount >6)
         {
             Destroy(historyPanel.GetChild(0).gameObject);
         }

@@ -3772,7 +3772,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1358192334}
   m_Father: {fileID: 212117233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &822122359
@@ -3815,7 +3816,7 @@ MonoBehaviour:
   historyPanel: {fileID: 1819203530}
   historyEntryPrefab: {fileID: 8258251537997889533, guid: 907e921f423a28a4ba65c864445efb6d, type: 3}
   movableBG: {fileID: 2042155470}
-  rocketController: {fileID: 1260506019}
+  rocketController: {fileID: 1358192335}
   boomImage: {fileID: 536489595}
 --- !u!1 &946313136
 GameObject:
@@ -3850,10 +3851,10 @@ RectTransform:
   - {fileID: 536489596}
   m_Father: {fileID: 1545077954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 220, y: 114.17}
-  m_SizeDelta: {x: -440, y: -328}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &946313138
 Animator:
@@ -5429,7 +5430,6 @@ GameObject:
   - component: {fileID: 1260506016}
   - component: {fileID: 1260506018}
   - component: {fileID: 1260506017}
-  - component: {fileID: 1260506019}
   - component: {fileID: 1260506020}
   m_Layer: 5
   m_Name: Rocket
@@ -5495,20 +5495,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260506015}
   m_CullTransparentMesh: 1
---- !u!114 &1260506019
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260506015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f521de84d8b436d47b19a677ed14ef17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sprite: {fileID: 946313136}
-  rocketTransform: {fileID: 1260506016}
 --- !u!95 &1260506020
 Animator:
   serializedVersion: 5
@@ -5828,6 +5814,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1319289681}
   m_CullTransparentMesh: 1
+--- !u!1 &1358192333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1358192334}
+  - component: {fileID: 1358192335}
+  m_Layer: 0
+  m_Name: RocketController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1358192334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358192333}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 822122358}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1358192335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358192333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f521de84d8b436d47b19a677ed14ef17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: 946313136}
+  rocketTransform: {fileID: 1260506016}
 --- !u!1 &1369740921
 GameObject:
   m_ObjectHideFlags: 0
@@ -6930,10 +6962,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 5
+    m_Right: 5
+    m_Top: 5
+    m_Bottom: 5
   m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
