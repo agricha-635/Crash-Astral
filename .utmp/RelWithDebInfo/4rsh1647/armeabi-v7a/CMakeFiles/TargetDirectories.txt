@@ -1,0 +1,5 @@
+E:/GitHub/Crash-Astral/.utmp/RelWithDebInfo/4rsh1647/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/GitHub/Crash-Astral/.utmp/RelWithDebInfo/4rsh1647/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+E:/GitHub/Crash-Astral/.utmp/RelWithDebInfo/4rsh1647/armeabi-v7a/FramePacing/CMakeFiles/swappywrapper.dir
+E:/GitHub/Crash-Astral/.utmp/RelWithDebInfo/4rsh1647/armeabi-v7a/FramePacing/CMakeFiles/edit_cache.dir
+E:/GitHub/Crash-Astral/.utmp/RelWithDebInfo/4rsh1647/armeabi-v7a/FramePacing/CMakeFiles/rebuild_cache.dir

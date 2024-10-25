@@ -22,7 +22,7 @@ public class GameView : MonoBehaviour
     [SerializeField] private GameObject historyEntryPrefab; // Prefab for history entries
     [SerializeField] private MovableBG movableBG; // Reference to the MovableBG component
     [SerializeField] private RocketController rocketController; // Reference to the RocketController
-    [SerializeField] private GameObject boomImage;
+
     private bool playButtonClicked = false;
     private int tenSecondTimer = 10;
     private int fourSecondTimer = 4;
@@ -57,13 +57,10 @@ public class GameView : MonoBehaviour
         {
             button.onClick.AddListener(() => OnAmountButtonClick(int.Parse(button.gameObject.name)));
         }
-
         // Initialize UI elements
         ResetUI();
-
         // Initialize wallet text
         UpdateWalletText();
-
         StartCoroutine(TenSecondTimer());
     }
 
@@ -189,7 +186,7 @@ public class GameView : MonoBehaviour
     private IEnumerator RiseMultiplier()
     {
         float multiplier = 1.00f;
-        float randomStop = Random.Range(1.00f, 10.00f); // Random stop point between 1.00x and 10.00x
+        float randomStop = Random.Range(1.00f, 5.00f); // Random stop point between 1.00x and 10.00x
 
         movableBG.StartMoving(); // Start the background movement
         rocketController.StartMoving(); // Start the rocket movement
@@ -203,8 +200,8 @@ public class GameView : MonoBehaviour
         }
 
         movableBG.StopMoving(); // Stop the background movement
-        rocketController.rocketTransform.gameObject.SetActive(false);
-        boomImage.SetActive(true); // Activate the boom image where the rocket crashes
+        rocketController.StopMoving();
+        // Activate the boom image where the rocket crashes
 
         if (playButtonClicked)
         {
@@ -218,8 +215,7 @@ public class GameView : MonoBehaviour
         AddToHistory($"{randomStop:F2}x");
 
         yield return new WaitForSeconds(2f); // Wait for 3 seconds after reaching the random stop
-        boomImage.SetActive(false); // Hide boom image after a delay
-        rocketController.Sprite.gameObject.SetActive(false);
+        rocketController.ResetRocket();
         RestartGame();
     }
 
@@ -231,7 +227,7 @@ public class GameView : MonoBehaviour
         textComponent.text = multiplier;
         newEntry.name = multiplier;
         // Remove oldest entry if more than 5
-        if (historyPanel.childCount >6)
+        if (historyPanel.childCount > 6)
         {
             Destroy(historyPanel.GetChild(0).gameObject);
         }
